@@ -1,0 +1,166 @@
+/* app/globals.css
+   Original visual identity for TheScratchAdventure.
+   Y2K street-culture: cel-shaded ink borders, neon, chrome, graffiti angles.
+   No copied assets — all shapes are CSS-drawn. */
+
+:root {
+  --ink: #0a0a12;
+  --ink-2: #12121f;
+  --panel: #1b1b2e;
+  --chrome-1: #e8ecff;
+  --chrome-2: #9aa4d4;
+  --line: #05050a;
+
+  --neon-pink: #ff2e7e;
+  --neon-cyan: #21e6ff;
+  --neon-lime: #c6ff3d;
+  --neon-orange: #ff8a00;
+  --neon-violet: #9b5cff;
+
+  --font-display: "Arial Black", "Helvetica Neue", Impact, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--ink);
+  color: var(--chrome-1);
+  font-family: var(--font-display);
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Angular ink-bordered panel — the core cel-shaded motif */
+.panel {
+  position: relative;
+  background: var(--panel);
+  border: 3px solid var(--line);
+  box-shadow: 6px 6px 0 var(--line);
+  clip-path: polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+}
+
+/* Chunky pressable button */
+.btn {
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 3px solid var(--line);
+  box-shadow: 4px 4px 0 var(--line);
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
+  clip-path: polygon(0 6px, 6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%);
+}
+.btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--line);
+}
+.btn-pink { background: var(--neon-pink); color: #fff; }
+.btn-cyan { background: var(--neon-cyan); }
+.btn-lime { background: var(--neon-lime); }
+
+/* Graffiti-style title with hard drop shadow */
+.graf-title {
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 0.85;
+  color: var(--neon-lime);
+  text-shadow:
+    3px 3px 0 var(--line),
+    -1px -1px 0 var(--neon-pink);
+  transform: skewX(-6deg);
+}
+
+/* Scanline / grid backdrop */
+.city-bg {
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(155, 92, 255, 0.25), transparent 60%),
+    repeating-linear-gradient(0deg, transparent 0 38px, rgba(33, 230, 255, 0.05) 38px 39px),
+    repeating-linear-gradient(90deg, transparent 0 38px, rgba(255, 46, 126, 0.05) 38px 39px),
+    var(--ink);
+}
+
+/* ---------- Character animations ---------- */
+.stage {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+.dancer {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform-origin: bottom center;
+  width: 92px;
+  height: 150px;
+  filter: drop-shadow(4px 6px 0 var(--line));
+}
+/* head nod */
+.anim-nod .head { animation: nod 0.5s ease-in-out infinite; transform-origin: bottom center; }
+/* top-rock sway */
+.anim-toprock { animation: toprock 0.6s ease-in-out infinite; }
+/* breakdance idle bounce */
+.anim-idle { animation: idle 0.5s ease-in-out infinite; }
+/* scratch — arm works the platter */
+.anim-scratch .arm { animation: scratch 0.28s ease-in-out infinite; transform-origin: top left; }
+
+@keyframes nod { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(8deg); } }
+@keyframes toprock {
+  0%,100% { transform: translateX(-50%) rotate(-4deg); }
+  50% { transform: translateX(-50%) rotate(4deg) translateY(-6px); }
+}
+@keyframes idle {
+  0%,100% { transform: translateX(-50%) translateY(0) scaleY(1); }
+  50% { transform: translateX(-50%) translateY(-10px) scaleY(1.04); }
+}
+@keyframes scratch {
+  0%,100% { transform: rotate(-18deg); }
+  50% { transform: rotate(18deg); }
+}
+.platter { animation: spin 1.2s linear infinite; transform-origin: center; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* EQ bars */
+.eq { display: flex; align-items: flex-end; gap: 4px; height: 46px; }
+.eq span {
+  width: 8px;
+  background: var(--neon-cyan);
+  border: 2px solid var(--line);
+  animation: bar 0.6s ease-in-out infinite;
+}
+.eq span:nth-child(2) { animation-delay: 0.1s; background: var(--neon-pink); }
+.eq span:nth-child(3) { animation-delay: 0.2s; background: var(--neon-lime); }
+.eq span:nth-child(4) { animation-delay: 0.15s; background: var(--neon-orange); }
+.eq span:nth-child(5) { animation-delay: 0.25s; background: var(--neon-violet); }
+.eq span:nth-child(6) { animation-delay: 0.05s; background: var(--neon-cyan); }
+.eq.paused span { animation-play-state: paused; height: 8px; }
+@keyframes bar { 0%,100% { height: 10px; } 50% { height: 46px; } }
+
+/* step indicator dots */
+.steps { display: flex; gap: 4px; }
+.steps i {
+  width: 10px; height: 10px; border: 2px solid var(--line);
+  background: var(--ink-2); display: block;
+}
+.steps i.on { background: var(--neon-pink); }
+
+.no-select { pointer-events: none; }
+input[type="range"] { -webkit-appearance: none; height: 14px; background: transparent; }
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 10px; background: var(--ink); border: 3px solid var(--line);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 26px; height: 26px; margin-top: -11px;
+  background: var(--neon-cyan); border: 3px solid var(--line);
+  box-shadow: 3px 3px 0 var(--line); cursor: pointer;
+}
